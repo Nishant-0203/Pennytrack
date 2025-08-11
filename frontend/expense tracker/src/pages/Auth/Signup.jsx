@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import AuthLayout from '../../components/layouts/AuthLayouts'
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Input from '../../components/inputs/Input';
 import { validateEmail } from '../../utils/helper';
 import ProfilePhotoSelector from '../../components/inputs/ProfilePhotoSelector';
@@ -11,12 +11,10 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   // Handle Sign Up Form Submit
   const handleSignUp = async (e) => {
     e.preventDefault();
-    let profileImageurl = "";
     if (!fullName) {
       setError("Please enter your name");
       return;
@@ -41,7 +39,7 @@ const Signup = () => {
         <p className="text-xs text-slate-700 mt-[15px] mb-6">
           Join us today by entering your details below.
         </p>
-        <form onSubmit={handleSignup}>
+        <form onSubmit={handleSignUp}>
 
           <ProfilePhotoSelector image={profilePic} setImage={setProfilePic} />
 
