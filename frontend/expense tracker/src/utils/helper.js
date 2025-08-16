@@ -27,11 +27,17 @@ export const addThousandsSeparator = (num) => {
 };
 
 export const prepareExpenseBarChartData = (data = []) => {
-  const chartData = data.map((item) => ({
-    category: item?.category,
-    amount: item?.amount,
+  // Sort by date (optional, but makes the chart look better)
+  const sortedData = [...data].sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  );
+
+  const chartData = sortedData.map((item) => ({
+    month: moment(item?.date).format("Do MMM"), // or "MMM YY" for shorter
+    amount: Number(item?.amount) || 0,
+    category: item?.category || "Unknown",
   }));
-  
+
   return chartData;
 };
 
@@ -49,17 +55,19 @@ export const prepareIncomeBarChartData = (data = []) => {
   return chartData;
 };
 
+
+
 export const prepareExpenseLineChartData = (data = []) => {
-  // Sort data by date
+  // Sort by date
   const sortedData = [...data].sort(
     (a, b) => new Date(a.date) - new Date(b.date)
   );
 
-  // Map data for chart
+  // Normalize & format
   const chartData = sortedData.map((item) => ({
-    date: moment(item?.date).format("Do MMM"),
-    amount: item?.amount,
-    category: item?.category,
+    month: moment(item?.date).format("Do MMM"), // use 'month' for XAxis
+    amount: Number(item?.amount) || 0,          // ensure number, prevent NaN
+    category: item?.category || "Unknown",
   }));
 
   return chartData;

@@ -52,10 +52,10 @@ exports.downloadExpenseExcel = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const Expense = await Expense.find({ userId }).sort({ date: -1 });
+    const expense = await Expense.find({ userId }).sort({ date: -1 });
 
     // Prepare data for Excel
-    const data = Expense.map(item => ({
+    const data = expense.map(item => ({
       category: item.category,
       Amount: item.amount,
       Date: item.date
@@ -66,11 +66,20 @@ exports.downloadExpenseExcel = async (req, res) => {
     const ws = xlsx.utils.json_to_sheet(data);
     xlsx.utils.book_append_sheet(wb, ws, "Expense");
 
+    // Ensure downloads directory exists
+    const fs = require('fs');
+    const path = require('path');
+    const downloadsDir = path.join(__dirname, '../downloads');
+    if (!fs.existsSync(downloadsDir)) {
+      fs.mkdirSync(downloadsDir);
+    }
+    const filePath = path.join(downloadsDir, `Expense.xlsx`);
+
     // Save Excel file
-    xlsx.writeFile(wb, "Expense.xlsx");
+    xlsx.writeFile(wb, filePath);
 
     // Send file to client
-    res.download("Expense.xlsx");
+    res.download(filePath);
   } catch (error) {
     res.status(500).json({ message: "Server Error" });
   }

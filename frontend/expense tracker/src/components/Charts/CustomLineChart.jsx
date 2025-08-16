@@ -1,6 +1,15 @@
 import React from 'react'
-import { XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area, AreaChart} from 'recharts';
+import {
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+  Area,
+  AreaChart
+} from 'recharts';
 
+const CustomLineChart = ({ data }) => {
 
 const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
@@ -17,29 +26,31 @@ const CustomTooltip = ({ active, payload }) => {
   return null;
 };
 
-  const CustomLineChart = ({ data }) => {
-  return (
-  <div className="bg-white ">
-    <ResponsiveContainer width="100%" height={300}>
+
+  return <div className="bg-white">
+      <ResponsiveContainer width="100%" height={300}>
         <AreaChart data={data}>
-        <defs>
+          <defs>
             <linearGradient id="incomeGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#87cf5" stopOpacity={0.4}/>
-                <stop offset="95%" stopColor="#87cf5" stopOpacity={0}/>
+              <stop offset="5%" stopColor="#875cf5" stopOpacity={0.4} />
+              <stop offset="95%" stopColor="#875cf5" stopOpacity={0} />
             </linearGradient>
-        </defs>
-        <CartesianGrid strokeDasharray="none" />
-        <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#555" }} stroke="none" />
-        <YAxis tick={{ fontSize: 12, fill: "#555" }} stroke="none" />
-        <Tooltip content={<CustomTooltip />} />
-        
-        <Area type="monotone" dataKey="amount" stroke="#87cf5" fill="url(#incomeGradient)" strokeWidth={3} dot={{ r: 3, fill:"#abBdf8"}} />;
+          </defs>
+          <CartesianGrid stroke="none" />
+          <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#555" }} stroke="none" />
+          <YAxis tick={{ fontSize: 12, fill: "#555" }} stroke="none" />
+          <Tooltip content={<CustomTooltip />} />
+          <Area
+            type="monotone"
+            dataKey="amount"
+            stroke="#875cf5"
+            fill="url(#incomeGradient)"
+            strokeWidth={3}
+            dot={{ r: 3, fill: "#abBdf8" }}
+          />
         </AreaChart>
-    </ResponsiveContainer>
-  </div>
-  );
+      </ResponsiveContainer>
+    </div>
 };
 
-
-
-export { CustomLineChart, CustomTooltip };
+export default CustomLineChart;

@@ -66,11 +66,20 @@ exports.downloadIncomeExcel = async (req, res) => {
     const ws = xlsx.utils.json_to_sheet(data);
     xlsx.utils.book_append_sheet(wb, ws, "Income");
 
+    // Ensure downloads directory exists
+    const fs = require('fs');
+    const path = require('path');
+    const downloadsDir = path.join(__dirname, '../downloads');
+    if (!fs.existsSync(downloadsDir)) {
+      fs.mkdirSync(downloadsDir);
+    }
+    const filePath = path.join(downloadsDir, `Income.xlsx`);
+
     // Save Excel file
-        xlsx.writeFile(wb, "Income.xlsx");
-    
-        // Send file to client
-        res.download("Income.xlsx");
+    xlsx.writeFile(wb, filePath);
+
+    // Send file to client
+    res.download(filePath);
   } catch (error) {
     res.status(500).json({ message: "Server Error" });
   }
