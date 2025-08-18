@@ -16,6 +16,9 @@ body {
 background-color: #fcfbfc;
 overflow-x: hidden;
 }
+ html {
+ scroll-behavior: smooth;
+ }
 }
 
 .input-box {
